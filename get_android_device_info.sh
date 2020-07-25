@@ -115,18 +115,20 @@ propsList=("ro.bootimage.build.date" \
 "sys.oem_unlock_allowed" \
 "wifi.interface")
 
+DATE=$(date "+%Y-%m-%d")
 device_manufacturer="$(getprop ro.product.manufacturer)"
 device_model="$(getprop ro.product.model)"
 device_name="$(getprop ro.product.name)"
+filename="${device_manufacturer}_${device_model}_${device_name}_device_info_${DATE}.txt"
 
-echo -e "\n[*] Creating the file $(getprop ro.product.manufacturer)_$(getprop ro.product.model)_$(getprop ro.product.name)_device_info.txt ..."
-touch /sdcard/"${device_manufacturer}_${device_model}_${device_name}"_device_info.txt
+echo -e "\n[*] Creating the file ${filename} ..."
+touch /sdcard/"${filename}"
 
 echo "    The device info will be written inside this file"
 
 echo -e "\n\n[*] Writing device info into the file ..."
 for property in "${propsList[@]}"; do
-   echo "${property}: $(getprop ${property})" >> /sdcard/"${device_manufacturer}_${device_model}_${device_name}"_device_info.txt 
+   echo "${property}: $(getprop ${property})" >> /sdcard/"${filename}"
 done
 
 echo -e "\n\nDone\nThe file is inside the Internal Storage of the device\n"
